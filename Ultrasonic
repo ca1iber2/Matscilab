@@ -1,0 +1,66 @@
+#define trigPin 13
+#define echoPin 12
+#define fsrpin A0
+int fsrreading;
+int speakerPin = 8;
+void setup() 
+{
+  Serial.begin (9600);
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+}
+void loop() 
+{
+  fsrreading = analogRead(fsrpin);
+  long duration, distance;
+  digitalWrite(trigPin, LOW);        
+  delayMicroseconds(2);              
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);           
+  digitalWrite(trigPin, LOW);
+  duration = pulseIn(echoPin, HIGH);
+  distance = (duration/2) / 29.1;
+  if (fsrreading >= 10)
+  {
+    if (distance <= 2) {
+      Serial.println("C");
+      Serial.println(distance);
+      tone(speakerPin, 261);
+    }
+    else if (distance > 4 && distance <= 6) {
+      Serial.println("D");
+      Serial.println(distance);
+      tone(speakerPin, 294);
+    }
+    else if (distance > 6 && distance <= 8) {
+      Serial.println("E");
+      Serial.println(distance);
+      tone(speakerPin, 330);
+    }
+    else if (distance > 8 && distance <= 10) {
+      Serial.println("F");
+      Serial.println(distance);
+      tone(speakerPin, 349);
+    }
+    else if (distance > 10 && distance <= 12) {
+      Serial.println("G");
+      Serial.println(distance);
+      tone(speakerPin, 392);
+    }
+    else if (distance > 12 && distance <= 14) {
+      Serial.println("A");
+      Serial.println(distance);
+      tone(speakerPin, 440);
+    }
+    else if (distance > 14 && distance <= 16) {
+      Serial.println("B");
+      Serial.println(distance);
+      tone(speakerPin, 494);
+    }
+  }
+  else {
+    noTone(speakerPin);
+  }
+  
+  delay(100);
+}
